@@ -18,7 +18,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/dashboard/masters/center/add" element={<AddCenter />} />
         <Route path="/dashboard/masters/center/view" element={<ViewCenters />} />
-        {/* <Route path="/register" element={<StudentForm />} /> */}
+        <Route path="/register" element={<StudentForm />} />
 
         <Route
           path="/dashboard"

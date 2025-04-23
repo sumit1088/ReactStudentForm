@@ -11,6 +11,7 @@ import {
     List,
 } from "lucide-react";
 
+
 const navItems = [
     { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     // { name: "Reports", icon: FileText, path: "/dashboard/reports" },
@@ -35,9 +36,25 @@ const reportItems = [
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
     const location = useLocation();
-    const [openMasters, setOpenMasters] = useState(false);
-    const [openReports, setOpenReports] = useState(false);
-    const [openSubmenus, setOpenSubmenus] = useState({});
+    const defaultOpenMasters = masters.some((item) =>
+        location.pathname.startsWith(item.basePath)
+    );
+
+    // Check if any Reports route is active
+    const defaultOpenReports = reportItems.some((item) =>
+        location.pathname.startsWith(item.path)
+    );
+
+    // Pre-expand submenu items (like "Center") if matched
+    const defaultOpenSubmenus = {};
+    masters.forEach((item) => {
+        if (location.pathname.startsWith(item.basePath)) {
+            defaultOpenSubmenus[item.label] = true;
+        }
+    });
+    const [openMasters, setOpenMasters] = useState(defaultOpenMasters);
+    const [openReports, setOpenReports] = useState(defaultOpenReports);
+    const [openSubmenus, setOpenSubmenus] = useState(defaultOpenSubmenus);
 
     const toggleSubMenu = (label) => {
         setOpenSubmenus((prev) => ({
