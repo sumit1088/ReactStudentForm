@@ -11,6 +11,7 @@ import ViewCenters from './components/ViewCenters';
 import AddSchool from './components/AddSchool';
 import ViewSchools from './components/ViewSchools';
 import AddTeacher from './components/AddTeacher';
+import ViewTeacher from './components/ViewTeacher';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/dashboard/masters/school/add" element={<AddSchool />} />
         <Route path="/dashboard/masters/school/view" element={<ViewSchools />} />
         <Route path="/dashboard/masters/teacher/add" element={<AddTeacher />} />
+        <Route path="/dashboard/masters/teacher/view" element={<ViewTeacher />} />
         <Route path="/register" element={<StudentForm />} />
 
         <Route
