@@ -13,31 +13,41 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prepare the login payload
+    const payload = {
+      email: form.username, // Assuming 'username' field will hold email
+      password: form.password,
+    };
+
     try {
-      const response = await fetch("http://192.168.1.28:8075/api/Auth/login", {
+      // Make API request to login (using the same URL as in the curl example)
+      const response = await fetch("http://192.168.1.28:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
-      if (response.ok && data.token) {
+      // Check if login was successful and we received an access token
+      if (response.ok && data.access_token) {
         console.log("Login successful:", data);
 
-        // Store token and user info in sessionStorage
-        sessionStorage.setItem("token", data.token);
+        // Store the access token in sessionStorage
+        sessionStorage.setItem('access_token', data.access_token);
+
+        // Optionally store additional user info in sessionStorage
+        // Assuming the server sends the user's email in the response (change as needed)
         sessionStorage.setItem("user", JSON.stringify({
-          userId: data.userId,
-          role: data.role,
-          username: form.username
+          email: form.username,  // you can update this with actual user data if available
         }));
 
-        navigate("/dashboard");
+        console.log("Navigating to dashboard...");
+        navigate("/dashboard");  // Make sure this is correct
       } else {
-        alert(data.message || "Login failed. Please check credentials.");
+        alert(data.message || "Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -50,9 +60,9 @@ const Login = () => {
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-900">Login</h2>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-1">Username</label>
+          <label className="block text-gray-700 mb-1">Username (Email)</label>
           <input
-            type="text"
+            type="email"
             name="username"
             value={form.username}
             onChange={handleChange}

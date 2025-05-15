@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Bell, Settings, User, Menu } from "lucide-react"; // ✅ Import Menu icon
+import { Bell, Settings, User, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import logo from './assets/logo.png';
 
 const Header = ({ toggleSidebar }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -30,13 +31,23 @@ const Header = ({ toggleSidebar }) => {
   return (
     <>
       <header className="flex items-center justify-between h-16 bg-white px-4 md:px-6 border-b relative">
-        {/* Hamburger Menu */}
-        <button className="md:hidden" onClick={toggleSidebar}>
-          <Menu className="w-6 h-6 text-gray-700" />
-        </button>
+        {/* Mobile Hamburger Menu */}
+        <div className="flex items-center gap-3">
+          <button
+            className="md:hidden text-gray-700"
+            onClick={toggleSidebar}
+            aria-label="Open sidebar"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
 
-        <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
+          {/* Logo or Title */}
+          <h1 className="text-xl font-semibold md:text-2xl">
+            <img src={logo} alt="Logo" className="w-28 md:w-36" />
+          </h1>
+        </div>
 
+        {/* User Controls */}
         <div className="flex items-center gap-4 relative" ref={menuRef}>
           <Bell className="w-5 h-5 cursor-pointer" />
           <Settings className="w-5 h-5 cursor-pointer" />
@@ -59,7 +70,7 @@ const Header = ({ toggleSidebar }) => {
         </div>
       </header>
 
-      {/* Confirmation Modal */}
+      {/* Logout Confirmation Modal */}
       {showConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-80">
